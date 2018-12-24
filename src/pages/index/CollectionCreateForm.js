@@ -2,14 +2,15 @@ import {
     Modal, Form, Input
   } from 'antd';
 const CollectionCreateForm = Form.create()(
-    // eslint-disable-next-line
+    // eslint-disable-next-line     
     class extends React.Component {
+      
       render() {
         const {
-          visible, onCancel, onCreate, form,
+          visible, onCancel, onCreate, form,id
         } = this.props;
         const { getFieldDecorator } = form;
-        
+        console.log(id)
         return (
           <Modal
             visible={visible}

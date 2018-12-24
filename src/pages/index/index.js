@@ -84,7 +84,8 @@ class ShopList extends React.Component{
           </span>
         ),
       }],
-      visible: false
+      visible: false,
+      id:0,
     }
   }
   componentDidMount(){
@@ -108,8 +109,8 @@ class ShopList extends React.Component{
   // }
 
   showModal = (id) => {
-    console.log(id)
-    this.setState({ visible: true });
+    // console.log(id)
+    this.setState({ visible: true,id });
   }
 
   handleCancel = () => {
@@ -143,21 +144,22 @@ class ShopList extends React.Component{
       {
         list.length > 0 && <Table columns={columns} dataSource={list} pagination={{pageSize: 3}}></Table>
       }
-      <Modal
+      {/* <Modal
         title="Modal"
         visible={this.state.visible}
         onOk={this.hideModal}
         onCancel={this.hideModal}
         okText="确认"
         cancelText="取消"
-      >
+      > */}
       <CollectionCreateForm
         wrappedComponentRef={this.saveFormRef}
         visible={this.state.visible}
         onCancel={this.handleCancel}
         onCreate={this.handleCreate}
+        id={this.state.id}
       ></CollectionCreateForm>
-      </Modal>
+      {/* </Modal> */}
       <Button onClick={() => openNotificationWithIcon('success')}>Success</Button>
       <Button onClick={() => openNotificationWithIcon('info')}>Info</Button>
       <Button onClick={() => openNotificationWithIcon('warning')}>Warning</Button>
