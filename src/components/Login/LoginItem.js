@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'dva';
 import { Form, Input, Button, Row, Col } from 'antd';
 import omit from 'omit.js';
 import styles from './index.less';
@@ -6,7 +7,16 @@ import ItemMap from './map';
 import LoginContext from './loginContext';
 
 const FormItem = Form.Item;
-
+@connect((state)=>{
+  return {...state.book}
+},dispatch=>({
+  getPhoneMessage:(payload)=>{
+    dispatch({
+      type:"book/getPhoneMessage",
+      payload
+    })
+  }
+}))
 class WrapFormItem extends Component {
   static defaultProps = {
     getCaptchaButtonText: 'captcha',
@@ -42,6 +52,8 @@ class WrapFormItem extends Component {
     } else {
       this.runGetCaptchaCountDown();
     }
+    this.props.getPhoneMessage(this.props.form.getFieldsValue().mobile)
+    console.log(this.props)
   };
 
   getFormItemOptions = ({ onChange, defaultValue, customprops, rules }) => {

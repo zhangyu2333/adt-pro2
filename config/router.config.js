@@ -55,7 +55,7 @@ export default [
           {
             path:'/shop/second',
             name:'second',
-            component:'./index/index'
+            component:'./index/additem'
           }
         ]
       },

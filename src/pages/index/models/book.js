@@ -1,4 +1,5 @@
 import { getbook } from '@/services/bookapi'
+import { getcode } from '@/services/api';
 export default {
     namespace:'book',
     state:{
@@ -12,7 +13,11 @@ export default {
                 type:'setBookData',
                 payload:bookData.data.list
             })
-        }
+        },
+        *getPhoneMessage({ payload },{ call, put }){
+            let res = yield call(getcode,payload)
+            console.log(res)
+        }       
     },
     reducers:{
         setBookData(state,{payload}){

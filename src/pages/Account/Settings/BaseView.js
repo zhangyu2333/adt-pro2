@@ -10,8 +10,9 @@ import PhoneView from './PhoneView';
 const FormItem = Form.Item;
 const { Option } = Select;
 
+
 // 头像组件 方便以后独立，增加裁剪之类的功能
-const AvatarView = ({ avatar }) => (
+const AvatarView = ({ avatar,getUrl }) => (
   <Fragment>
     <div className={styles.avatar_title}>
       <FormattedMessage id="app.settings.basic.avatar" defaultMessage="Avatar" />
@@ -19,7 +20,7 @@ const AvatarView = ({ avatar }) => (
     <div className={styles.avatar}>
       <img src={avatar} alt="avatar" />
     </div>
-    <Upload fileList={[]}>
+    <Upload fileList={[]} onChange={e=>getAvatarPath(e,getUrl)}>
       <div className={styles.button_view}>
         <Button icon="upload">
           <FormattedMessage id="app.settings.basic.change-avatar" defaultMessage="Change avatar" />
@@ -28,6 +29,20 @@ const AvatarView = ({ avatar }) => (
     </Upload>
   </Fragment>
 );
+
+const getAvatarPath = (e,getUrl) => {
+  let form = new FormData();
+  form.append(e.file.name, e.file.originFileObj)
+  fetch('http://123.206.55.50:11000/upload', {
+    method: 'POST',
+    body: form
+  }).then(res=>res.json()).then(body=>{
+    console.log('body...', body);
+    getUrl(body.data[0].path);
+  })
+  console.log(e)
+  console.log(getUrl)
+}
 
 const validatorGeographic = (rule, value, callback) => {
   const { province, city } = value;
@@ -53,6 +68,13 @@ const validatorPhone = (rule, value, callback) => {
 
 @connect(({ user }) => ({
   currentUser: user.currentUser,
+}),dispatch => ({
+  changeAvatar: payload=>{
+    dispatch({
+      type: 'user/changeAvatar',
+      payload
+    })
+  }
 }))
 @Form.create()
 class BaseView extends Component {
@@ -182,7 +204,7 @@ class BaseView extends Component {
           </Form>
         </div>
         <div className={styles.right}>
-          <AvatarView avatar={this.getAvatarURL()} />
+          <AvatarView avatar={this.getAvatarURL()} getUrl={this.props.changeAvatar}/>
         </div>
       </div>
     );

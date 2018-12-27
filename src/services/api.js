@@ -126,3 +126,24 @@ export async function queryNotices() {
 export async function getFakeCaptcha(mobile) {
   return request(`/api/captcha?mobile=${mobile}`);
 }
+
+export async function getcode(phone) {
+  return request(`http://123.206.55.50:11000/smsCode`,{
+    method:'POST',
+    body:{phone},
+    headers:{
+      'Content-Type':'application/json'
+    }
+  });
+}
+
+export async function setItem (opt) {
+  console.log(opt)
+  return request('http://123.206.55.50:15000/shop/insert',{
+    method:'POST',
+    body:opt,
+    headers:{
+     'Content-Type':'application/json'
+    }
+  });
+}

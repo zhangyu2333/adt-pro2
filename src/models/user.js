@@ -48,5 +48,9 @@ export default {
         },
       };
     },
+    changeAvatar(state,action){
+      const currentUser = {...state.currentUser,avatar:action.payload}
+      return {...state,currentUser}
+    }
   },
 };
